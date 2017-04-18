@@ -1,0 +1,6 @@
+CodeDB
+Debug
+Release
+VisualGDBCache
+*.suo
+/Firmware/.vs/co2Mon/v15/Browse.VC.db
