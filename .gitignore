@@ -4,3 +4,4 @@ Release
 VisualGDBCache
 *.suo
 /Firmware/.vs/co2Mon/v15/Browse.VC.db
+/Firmware/co2Mon.VC.db
