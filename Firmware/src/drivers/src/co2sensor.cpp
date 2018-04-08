@@ -93,7 +93,7 @@ uint8_t CO2Sensor::USART_ReadByte(bool* isOk, uint16_t timeout)
 	
 	*isOk = true;
 	nCount = ((uint64_t)HAL_RCC_GetHCLKFreq() * timeout / 10000);
-	if (!(usart->State == HAL_UART_STATE_READY) && !(usart->State == HAL_UART_STATE_BUSY_TX))
+	if (!(usart->gState == HAL_UART_STATE_READY) && !(usart->gState == HAL_UART_STATE_BUSY_TX))
 	{
 		*isOk = false;
 		return 0x00;
@@ -105,13 +105,13 @@ uint8_t CO2Sensor::USART_ReadByte(bool* isOk, uint16_t timeout)
 	}
 	__HAL_LOCK(usart);
 	usart->ErrorCode = HAL_UART_ERROR_NONE;
-	if (usart->State == HAL_UART_STATE_BUSY_TX)
+	if (usart->gState == HAL_UART_STATE_BUSY_TX)
 	{
-		usart->State = HAL_UART_STATE_BUSY_TX_RX;
+		usart->gState = HAL_UART_STATE_BUSY_TX_RX;
 	}
 	else
 	{
-		usart->State = HAL_UART_STATE_BUSY_RX;
+		usart->gState = HAL_UART_STATE_BUSY_RX;
 	}
 	while (!(usart->Instance->SR & USART_SR_RXNE))
 	{
@@ -123,13 +123,13 @@ uint8_t CO2Sensor::USART_ReadByte(bool* isOk, uint16_t timeout)
 		}
 	}
 	uint8_t result = usart->Instance->DR;
-	if (usart->State == HAL_UART_STATE_BUSY_TX_RX) 
+	if (usart->gState == HAL_UART_STATE_BUSY_TX_RX) 
 	{
-		usart->State = HAL_UART_STATE_BUSY_TX;
+		usart->gState = HAL_UART_STATE_BUSY_TX;
 	}
 	else
 	{
-		usart->State = HAL_UART_STATE_READY;
+		usart->gState = HAL_UART_STATE_READY;
 	}
 	__HAL_UNLOCK(usart);
 	return result;

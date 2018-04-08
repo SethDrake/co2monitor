@@ -42,7 +42,7 @@ void DBG_Configuration()
 	HAL_DBGMCU_EnableDBGStandbyMode();
 
 	//hard fault on div by zero
-	SCB->CCR |= SCB_CCR_DIV_0_TRP;
+	SCB->CCR |= SCB_CCR_DIV_0_TRP_Msk;
 }
 
 void SystemClock_Configuration()
@@ -109,7 +109,7 @@ void RCC_Configuration()
 void I2C_Configuration(I2C_HandleTypeDef* i2cHandle)
 {
 	i2cHandle->Instance             = I2C1;
-	i2cHandle->Init.ClockSpeed      = I2C_FAST_MODE_MAX_CLK; //400000
+	i2cHandle->Init.ClockSpeed      = 400000; //400000
 	i2cHandle->Init.DutyCycle       = I2C_DUTYCYCLE_2;
 	i2cHandle->Init.OwnAddress1     = 0x00;
 	i2cHandle->Init.AddressingMode  = I2C_ADDRESSINGMODE_7BIT;
